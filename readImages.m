@@ -1,11 +1,11 @@
-function readImages( path, filter )
-%UNTITLED3 Summary of this function goes here
-%   Detailed explanation goes here
-    images = dir([path filter ]);
-    for i = 1:1:length(images)     
-        imgName = images(i).name;
-        [~,varName, ~] = fileparts(imgName);
-        assignin('base',varName, imread([path imgName]));
+function [ imgs ] = readImages( path, filter )
+    names = dir([path filter ]);
+    imgs = cell(length(names), 1);
+    for i = 1:1:length(names)     
+        imgName = names(i).name;
+        % [~,varName, ~] = fileparts(imgName);
+        % assignin('base',varName, imread([path imgName]));
+        imgs{i} = imread([path imgName]);
     end
 end
 

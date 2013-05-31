@@ -8,11 +8,11 @@ function [ attributes ] = characteristics( image )
     a{1} = horizontal_projection(i);
     a{2} = vertical_projection(i);
     h = hog(i);
-    a{3} = imhist(h, 16)';
+    a{3} = imhist(h, 10)
     % attributes = [a{1}, a{2}];
-    % attributes = [a{3}];
-    attributes = [a{1}, a{2}, a{3}];
+    attributes = [a{3}, a{4}];
 end
+
 
 % http://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/pr04.pdf
 function [ attrib ] = horizontal_projection( image )
