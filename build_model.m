@@ -32,8 +32,8 @@ end
 classes = [ones(lenTraItems, 1); zeros(lenTraNonItems, 1)];
 
 % Model
-
-model = ClassificationKNN.fit(matrix, classes);
+%http://www.mathworks.es/es/help/stats/classification-using-nearest-neighbors.html#btap7l_
+model = ClassificationKNN.fit(matrix, classes,  'NumNeighbors', 4);
 
 error = [1; 1];
 
