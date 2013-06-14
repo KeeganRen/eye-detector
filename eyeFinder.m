@@ -4,8 +4,8 @@ function [ imgeye ] = eyeFinder( img, model )
 
 winH = 30; 
 winW = 40;
-offsetH = 10;
-offsetW = 10;
+offsetH = 15;
+offsetW = 20;
 LOD = 1;
 
 [rows, columns, numberOfColorChannels] = size(img);
@@ -14,6 +14,10 @@ if numberOfColorChannels > 1
 else
     gray = img;
 end
+
+gray = double(gray);
+gray = gray - min(gray(:));
+gray = gray / max(gray(:));
 
 
 
@@ -34,8 +38,12 @@ for i = 1:1:length(points)
    
 end
 
-
-
+figure;
+imshow(img);
+hold on;
+for i = 1:1:eyesFound
+    rectangle('Position',[imgeye(i,1) imgeye(i,2) winW winH], 'LineWidth',2, 'EdgeColor','b');
+end
 
 
     

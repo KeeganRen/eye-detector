@@ -1,8 +1,8 @@
 if ~exist('eyes', 'var')
-    eyes = readImages('./EyeDataSet/', 'Eye*.jpg');
+    eyes = readImages('C:/Users/TEMP/Desktop/shared-vc-eyes/Eye/', 'Eye*.jpg');
 end
 if ~exist('nonEyes', 'var')
-    nonEyes = readImages('./EyeDataSet/', 'NonEye*.jpg');
+    nonEyes = readImages('C:/Users/TEMP/Desktop/shared-vc-eyes/NonEye/', 'NonEye*.jpg');
 end
 
 eyes = randomize(eyes);
