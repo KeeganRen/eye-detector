@@ -13,9 +13,10 @@ function [ attributes ] = characteristics( image )
     a{2} = vertical_projection(img);
     h = hog(img);
     a{3} = imhist(h, 16)';
+    a{4} = circleRatio(img);
     % attributes = [a{1}, a{2}];
     % attributes = [a{3}];
-    attributes = [a{1}, a{2}, a{3}];
+    attributes = [a{1}, a{2}, a{3}, a{4}];
 end
 
 
