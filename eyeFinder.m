@@ -64,7 +64,7 @@ for o = 1:1:omax
             ilog = imfilter(iaux', f);
             ilog = ilog - min(ilog(:));
             ilog = ilog / max(ilog(:));
-            figure; imshow(ilog'); hold on;
+            % figure; imshow(ilog'); hold on;
             blob(s, :, :) = ilog(:, :);
             dx(s, :, :) = imfilter(ilog(:, :), filter, 'same');
             dy(s, :, :) = imfilter(ilog(:, :), filter', 'same');
@@ -72,8 +72,8 @@ for o = 1:1:omax
             dxy(s, :, :) = imfilter(dx(s, :, :), filter', 'same');
             dyy(s, :, :) = imfilter(dy(s, :, :), filter', 'same');
         end
+        figure; imshow(img); hold on;
         for s = 2:1:(smax-1)
-            figure; imshow(img); hold on;
             for i = margin:1:(w-margin)
                 x = i*oct;
                 for j = margin:1:(h-margin)
