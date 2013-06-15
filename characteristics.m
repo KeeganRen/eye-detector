@@ -8,9 +8,6 @@ function [ attributes ] = characteristics( image )
     img = img - min(img(:));
     img = img / max(img(:));
    
-   bw = blockBinarization(img,2);
-   imshow(bw);
-   
     a = cell(1,1);
     a{1} = horizontal_projection(img);
     a{2} = vertical_projection(img);

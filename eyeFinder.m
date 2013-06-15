@@ -15,8 +15,9 @@ gray = gray / max(gray(:));
 winH = 30;
 winW = 40;
 points = getPoints(gray);
-eyesFound = 0;
-figure; % FIXME
+figure;
+imshow(img);
+hold on;
 for i = 1:1:length(points)
     x = points(i, 1) - winW/2;
     y = points(i, 2) - winH/2;
@@ -25,16 +26,11 @@ for i = 1:1:length(points)
         chars = characteristics(window);
         class = predict(model, chars);
         if class == 1
-            eyesFound = eyesFound + 1;
-            imgeye(eyesFound,:) = [x, y];
+            rectangle('Position', [x y winW winH], 'LineWidth', 2, 'EdgeColor', 'g');
+        else
+            rectangle('Position', [x y winW winH], 'LineWidth', 1, 'EdgeColor', 'r');
         end
     end
-end
-figure;
-imshow(img);
-hold on;
-for i = 1:1:eyesFound
-    rectangle('Position', [imgeye(i,1) imgeye(i,2) winW winH], 'LineWidth', 2, 'EdgeColor', 'b');
 end
 end
 
@@ -42,15 +38,19 @@ end
 function [points] = getPoints(img)
 % Devuelve lista de puntos de interes si los hay
 margin = 40;
-omax = 1;
+hit_radius = 15;
+omax = 2;
 smax = 5;
 % iaux = imfilter(img, fspecial('gaussian', 3, 3));
 iaux = img;
 p = 1;
 % figure; imshow(img, []); hold on;
+[h, w] = size(iaux);
+hitbox = zeros(w, h);
+hs = hit_radius;
+hf = ceil(fspecial('disk', hs));
 for o = 1:1:omax
     oct = 2^(o-1);
-    [h, w] = size(iaux);
     if w > margin*2 && h > margin*2
         blob = ones(smax, w, h);
         dx = ones(smax, w, h);
@@ -75,36 +75,36 @@ for o = 1:1:omax
         for s = 2:1:(smax-1)
             figure; imshow(img); hold on;
             for i = margin:1:(w-margin)
-                x = i*(oct);
+                x = i*oct;
                 for j = margin:1:(h-margin)
-                    y = j*(oct);
-                    b = blob((s-1):(s+1), (i-1):(i+1), (j-1):(j+1));
+                    y = j*oct;
                     c = blob(s, i, j);
-                    if (c == min(b(:)) || c == max(b(:)))
-                        trij = dxx(s, i, j) + dyy(s, i, j);
-                        detij = dxx(s, i, j)*dyy(s, i, j) - dxy(s, i, j)^2;
-                        rij = trij^2 / detij;
-                        if (c < 0.333 || c > 0.666)
+                    if c > 0.7 && hitbox(x, y) == 0
+                        b = blob((s-1):(s+1), (i-1):(i+1), (j-1):(j+1));
+                        if (c == min(b(:)) || c == max(b(:)))
+                            trij = dxx(s, i, j) + dyy(s, i, j);
+                            detij = dxx(s, i, j)*dyy(s, i, j) - dxy(s, i, j)^2;
+                            rij = trij^2/detij;
                             if rij < -5
-                                plot(x, y, 'y+');
+                                plot(x, y, 'y.');
                             else
                                 if rij > 5
-                                    plot(x, y, 'c+');
+                                    plot(x, y, 'c.');
                                 else
-                                    plot(x, y, 'g*');
+                                    hitbox(x-hs:x+hs, y-hs:y+hs) = hf;
+                                    plot(x, y, 'g+');
                                     points(p, 1) = x;
                                     points(p, 2) = y;
                                     p = p + 1;
                                 end
                             end
-                        else
-                            plot(x, y, 'm.')
                         end
                     end
                 end
             end
         end
-        iaux = imresize(iaux, [w/2, h/2]);
+        iaux = imresize(iaux, [h/2, w/2]);
+        [h, w] = size(iaux);
     end
 end
 end
