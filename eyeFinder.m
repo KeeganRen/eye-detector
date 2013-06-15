@@ -11,7 +11,7 @@ gray = gray - min(gray(:));
 gray = gray / max(gray(:));
 
 
-%% Probamos para ventas de 30x40
+% Probamos para ventas de 30x40
 winH = 30;
 winW = 40;
 points = getPoints(gray);
@@ -91,7 +91,7 @@ for o = 1:1:omax
                                 if rij > 5
                                     plot(x, y, 'c.');
                                 else
-                                    hitbox(x-hs:x+hs, y-hs:y+hs) = hf;
+                                    hitbox(x-hs:x+hs, y-hs:y+hs) = hitbox(x-hs:x+hs, y-hs:y+hs) + hf;
                                     plot(x, y, 'g+');
                                     points(p, 1) = x;
                                     points(p, 2) = y;
