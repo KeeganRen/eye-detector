@@ -39,7 +39,7 @@ function [points] = getPoints(img)
 % Devuelve lista de puntos de interes si los hay
 margin = 40;
 hit_radius = 15;
-omax = 2;
+omax = 1;
 smax = 5;
 % iaux = imfilter(img, fspecial('gaussian', 3, 3));
 iaux = img;
