@@ -20,16 +20,15 @@ for o = 1:1:omax
             ilog = imfilter(iaux', f);
             ilog = ilog - min(ilog(:));
             ilog = ilog / max(ilog(:));
-            % figure; imshow(ilog'); hold on;
             blob(s, :, :) = ilog(:, :);
-            dx(s, :, :) = imfilter(ilog(:, :), filter, 'same');
-            dy(s, :, :) = imfilter(ilog(:, :), filter', 'same');
-            dxx(s, :, :) = imfilter(dx(s, :, :), filter, 'same');
-            dxy(s, :, :) = imfilter(dx(s, :, :), filter', 'same');
-            dyy(s, :, :) = imfilter(dy(s, :, :), filter', 'same');
         end
         figure; imshow(img); hold on;
         for s = 2:1:(smax-1)
+            dx(:, :) = imfilter(blob(s, :, :), filter, 'same');
+            dy(:, :) = imfilter(blob(s, :, :), filter', 'same');
+            dxx(:, :) = imfilter(dx(:, :), filter, 'same');
+            dxy(:, :) = imfilter(dx(:, :), filter', 'same');
+            dyy(:, :) = imfilter(dy(:, :), filter', 'same');
             for i = margin:1:(w-margin)
                 x = i*oct;
                 for j = margin:1:(h-margin)
@@ -38,9 +37,8 @@ for o = 1:1:omax
                     if c > 0.7 && hitbox(x, y) == 0
                         b = blob((s-1):(s+1), (i-1):(i+1), (j-1):(j+1));
                         if c == max(b(:))
-                            trij = dxx(s, i, j) + dyy(s, i, j);
-                            detij = ...
-                                dxx(s, i, j)*dyy(s, i, j) - dxy(s, i, j)^2;
+                            trij = dxx(i, j) + dyy(i, j);
+                            detij = dxx(i, j)*dyy(i, j) - dxy(i, j)^2;
                             rij = trij^2/detij;
                             if rij < -5
                                 plot(x, y, 'y.');
