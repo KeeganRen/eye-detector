@@ -25,6 +25,7 @@ function [ attributes ] = characteristics( img )
     % imlap = imlap - min(imlap(:));
     % imlap = imlap / max(imlap(:));
     a{1} = imlap(:)';
+    [a{2}, a{3}] = circleRatio(img);
     
     % 7am breakfast bowl descriptor
 %     filter = [1 0 1, 0 -1 0, 1 0 1];
@@ -54,7 +55,7 @@ function [ attributes ] = characteristics( img )
 %     vote = vote / 24 * max(imlap(:)) * 10;
 %  
     
-    attributes = [a{1}];
+    attributes = [a{1}, a{2}];
 end
 
 
