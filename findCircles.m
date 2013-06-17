@@ -1,5 +1,5 @@
 function findCircles( im, Rmin, Rmax )
-
+warning('off','all');
 im = imfilter(im,fspecial('gaussian'));
 im = logical(blockBinarization(im,2));
 %ime = imdilate(im,strel('disk',4));
@@ -24,7 +24,7 @@ im = logical(blockBinarization(im,2));
 imshow(im)
 % Plot bright circles in blue
 viscircles(centers, radi,'EdgeColor','r');
-
+warning('on','all');
 
 end
 
